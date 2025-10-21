@@ -1,0 +1,341 @@
+{ config, lib, pkgs, ... }:
+let
+  browser = [ "firefox.desktop" ];
+  associations = {
+    "text/html" = browser;
+    "x-scheme-handler/http" = browser;
+    "x-scheme-handler/https" = browser;
+    "x-scheme-handler/ftp" = browser;
+    "x-scheme-handler/chrome" = browser;
+    "x-scheme-handler/about" = browser;
+    "x-scheme-handler/mailto" = [ "org.mozilla.thunderbird.desktop" ];
+    "x-scheme-handler/unknown" = browser;
+    "application/x-extension-htm" = browser;
+    "application/x-extension-html" = browser;
+    "application/x-extension-shtml" = browser;
+    "application/xhtml+xml" = browser;
+    "application/x-extension-xhtml" = browser;
+    "application/x-extension-xht" = browser;
+
+ 
+    "image/jpeg" = [ "qimgv.desktop" ];
+    "image/png" = [ "qimgv.desktop" ];
+    "image/gif" = [ "qimgv.desktop" ];
+    
+    "audio/mp3" = [ "vlc.desktop" ];
+    "audio/mp4" = [ "vlc.desktop" ];
+    "video/mp4" = [ "vlc.dekstop" ];
+
+    "text/plain" = [ "org.kde.kate.desktop" ];
+
+    # Wine
+    "application/vnd.microsoft.portable-executable" = [ "wine.deskop" ];
+
+    
+    "application/json" = browser; # ".json"  JSON format
+    "application/pdf" = browser; # ".pdf"  Adobe Portable Document Format (PDF)
+  };
+in rec
+{
+  # TODO please change the username & home directory to your own
+  home.username = "livefish";
+  home.homeDirectory = "/home/${home.username}";
+
+  imports = [
+    ./git
+    ./hyprland/hyprland.nix
+  ];
+
+  xdg.configFile.hyprland = {
+    enable = false;
+    source = config.lib.file.mkOutOfStoreSymlink ./hyprland/hyprland.conf;
+    target = "hypr/hyprland.conf";
+  };  
+
+  # Packages that should be installed to the user profile.
+  home.packages = with pkgs; [
+    telegram-desktop
+        
+    # archives
+    zip
+    xz
+    unzip
+    p7zip
+
+    # utils
+    ripgrep # recursively searches directories for a regex pattern
+    jq # A lightweight and flexible command-line JSON processor
+    yq-go # yaml processor https://github.com/mikefarah/yq
+    eza # A modern replacement for ‘ls’
+    fzf # A command-line fuzzy finder
+
+    broot # Tree-like
+    fd    # Better find
+    procs # Ps alternative
+    doggo # Dig alternative
+
+    gitui
+    
+    # networking tools
+    mtr # A network diagnostic tool
+    iperf3
+    dnsutils  # `dig` + `nslookup`
+    ldns # replacement of `dig`, it provide the command `drill`
+    aria2 # A lightweight multi-protocol & multi-source command-line download utility
+    socat # replacement of openbsd-netcat
+    nmap # A utility for network discovery and security auditing
+    ipcalc  # it is a calculator for the IPv4/v6 addresses
+
+    # misc
+    cowsay
+    file
+    which
+    tree
+    gnused
+    gnutar
+    gawk
+    zstd
+    gnupg
+
+    # nix related
+    #
+    # it provides the command `nom` works just like `nix`
+    # with more details log output
+    nix-output-monitor
+
+    wofi # Here because we need some config
+    
+    # productivity
+    glow # markdown previewer in terminal
+
+    iotop # io monitoring
+    iftop # network monitoring
+
+    # system call monitoring
+    strace # system call monitoring
+    ltrace # library call monitoring
+    lsof # list open files
+
+    # system tools
+    sysstat
+    lm_sensors # for `sensors` command
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+    libreoffice
+
+    ggh # better ssh
+
+    tldr
+
+    fluffychat
+    deltachat-desktop
+
+    # discord
+    
+    zoom-us
+    
+    obs-studio    
+    # yandex-music
+    anydesk
+    keepassxc
+    
+    mako # Notification daemon
+  ];
+
+  # alacritty - a cross-platform, GPU-accelerated terminal emulator
+  programs.alacritty = { 
+    enable = true;
+    settings = {
+      env.TERM = "alacritty";
+
+      font = {
+				normal = {
+					family = "JetBrains Mono Nerd Font";
+					style = "Regular";
+				};
+				bold = {
+					family = "JetBrains Mono Nerd Font";
+					style = "Bold";
+				};
+				italic = {
+					family = "JetBrains Mono Nerd Font";
+					style = "Italic";
+				};
+				size = 11;
+			};
+    };
+  };
+
+  
+  services.mako = {
+    enable = true;
+    settings = {
+      "actionable=true" = {
+        anchor = "top-left";
+      };
+      actions = true;
+      anchor = "top-left";
+      text-color = "#FFFFFFFF";
+      background-color = "#285577FF";
+      border-color = "#4C7899FF";
+      border-radius = 3;
+      default-timeout = 5000;
+      group-by = "summary";
+      font = "monospace 12";
+      height = 100;
+      icons = true;
+      padding = 5;
+      ignore-timeout = false;
+      layer = "top";
+      margin = "0, 20, 20";
+      markup = true;
+      width = 300;
+    };
+  };
+  # Headset button support
+  services.mpris-proxy.enable = true;
+
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    # TODO add your custom bashrc here
+    bashrcExtra = ''
+      if [[ $- == *i* ]]
+      then
+        fastfetch
+      fi
+      export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
+      ___MY_VMOPTIONS_SHELL_FILE="''${HOME}/.jetbrains.vmoptions.sh"; if [ -f "''${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "''${___MY_VMOPTIONS_SHELL_FILE}"; fi
+    '';
+
+    # set some aliases, feel free to add more or remove some
+    shellAliases = {
+      ls = "eza";
+      l = "eza -alh";
+      ll = "eza -l";
+      a = "ping ya.ru";
+      ssh = "ggh";
+      cc = "cd /etc/nixos/livefish-laptop";
+      r = "sudo nixos-rebuild switch";
+      rdb = "sudo nixos-rebuild switch --show-trace --print-build-logs --verbose";
+      e = "sudo nano /etc/nixos/*"; /* for now */
+      ee = "sudo nano ./*";
+      u = "sudo nix flake update --flake /etc/nixos && r";
+      logs = "journalctl -n 100 -f";
+      try = "nix-shell -p";
+      urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
+      urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+      me = "curl eth0.me";
+    };
+  };
+  
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  programs.eza = {
+    enable = true;
+    icons = "auto";
+  };
+  
+  # xdg.mime.defaultApplications = defaultApplications;
+  xdg.portal = {    
+    enable = true;
+    extraPortals = with pkgs;
+      lib.mkForce [
+        kdePackages.xdg-desktop-portal-kde
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
+      ];
+
+    config = {
+      common = {
+        "org.freedesktop.impl.portal.FileChooser" = "gtk";
+      };
+    };
+  };
+  
+  xdg.autostart = {
+    enable = true;
+    entries = [
+      "${pkgs.firefox}/share/applications/firefox.desktop"
+      "${pkgs.telegram-desktop}/share/applications/org.telegram.desktop.desktop"
+      "${pkgs.thunderbird}/share/applications/thunderbird.desktop"
+      # "${pkgs.deltachat-desktop}/share/applications/deltachat.desktop"
+    ];
+  };
+
+  # For hyprland 
+  wayland.windowManager.hyprland.enable = true; # enable Hyprland
+  wayland.windowManager.hyprland.systemd.enable = false;
+
+  programs.wofi = {
+      enable = true;
+      style = ''
+      window {
+      margin: 0px;
+      border: 1px solid #bd93f9;
+      background-color: #282a36;
+      }
+
+      #input {
+      margin: 5px;
+      border: none;
+      color: #f8f8f2;
+      background-color: #44475a;
+      }
+
+      #inner-box {
+      margin: 5px;
+      border: none;
+      background-color: #282a36;
+      }
+
+      #outer-box {
+      margin: 5px;
+      border: none;
+      background-color: #282a36;
+      }
+
+      #scroll {
+      margin: 0px;
+      border: none;
+      }
+
+      #text {
+      margin: 5px;
+      border: none;
+      color: #f8f8f2;
+      } 
+
+      #entry.activatable #text {
+      color: #282a36;
+      }
+
+      #entry > * {
+      color: #f8f8f2;
+      }
+
+      #entry:selected {
+      background-color: #44475a;
+      }
+
+      #entry:selected #text {
+      font-weight: bold;
+      }
+    '';
+  };  
+  
+  # This value determines the home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update home Manager without changing this value. See
+  # the home Manager release notes for a list of state version
+  # changes in each release.
+  home.stateVersion = "25.05";
+}

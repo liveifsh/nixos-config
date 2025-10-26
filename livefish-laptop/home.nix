@@ -84,6 +84,7 @@ in rec
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
+    zenmap # Nmap GUI
     ipcalc  # it is a calculator for the IPv4/v6 addresses
 
     # misc
@@ -197,7 +198,7 @@ in rec
   services.mpris-proxy.enable = true;
 
   programs.bash = {
-    enable = true;
+    enable = false;
     enableCompletion = true;
     # TODO add your custom bashrc here
     bashrcExtra = ''
@@ -229,6 +230,43 @@ in rec
       me = "curl eth0.me";
     };
   };
+
+  programs.fish = {
+    enable = true;
+    shellAbbrs = {
+      ls = "eza";
+      l = "eza -alh";
+      ll = "eza -l";
+      a = "ping ya.ru";
+      ssh = "ggh";
+      cc = "cd /etc/nixos/livefish-laptop";
+      r = "sudo nixos-rebuild switch";
+      rdb = "sudo nixos-rebuild switch --show-trace --print-build-logs --verbose";
+      e = "sudo nano /etc/nixos/*"; /* for now */
+      ee = "sudo nano ./*";
+      u = "sudo nix flake update --flake /etc/nixos && r";
+      logs = "journalctl -n 100 -f";
+      try = "nix-shell -p";
+      urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
+      urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+      me = "curl eth0.me";
+    };
+    interactiveShellInit = "fastfetch";
+    plugins = [
+      { name = "puffer"; src = pkgs.fishPlugins.puffer.src; }
+      { name = "grc"; src = pkgs.fishPlugins.grc.src; }
+      { name = "git"; src = pkgs.fishPlugins.plugin-git.src; }
+      { name = "sudo"; src = pkgs.fishPlugins.plugin-sudope.src; }
+      { name = "pisces"; src = pkgs.fishPlugins.pisces.src; }
+      { name = "done"; src = pkgs.fishPlugins.done.src; }
+      { name = "colored man"; src = pkgs.fishPlugins.colored-man-pages.src; }
+      { name = "bass"; src = pkgs.fishPlugins.bass.src; }
+      { name = "tide"; src = pkgs.fishPlugins.tide.src; }
+    ];
+  };
+
+  # Better fish completion
+  programs.man.generateCaches = true; # home-manager
   
   programs.direnv = {
     enable = true;

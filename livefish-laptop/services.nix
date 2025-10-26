@@ -45,15 +45,32 @@
         CPU_MAX_PERF_ON_BAT = 60;
       };
     };
+
     fprintd = {
       enable = true;
       # tod.enable = true;
       # tod.driver = pkgs.libfprint-2-tod1-goodix; # Goodix driver module
     };
-  
-    logind.lidSwitch = "suspend";               # Normal - suspend
-    logind.lidSwitchExternalPower = "suspend";  # Charging - suspend
-    logind.lidSwitchDocked = "ignore";          # Second monitor connected - nothing  
+
+    keyd = {
+      enable = true;
+      keyboards = {
+        default = {
+          ids = [ "1a2c:7fff" ]; # 2.4G Wireless Device keyboard
+          settings.main = {
+            rightcontrol = "end";
+          };
+        };        
+      };
+    };
+
+    ratbagd.enable = true;
+
+    logind = {
+      lidSwitch = "suspend";               # Normal - suspend
+      lidSwitchExternalPower = "suspend";  # Charging - suspend
+      lidSwitchDocked = "ignore";          # Second monitor connected - nothing  
+    };
   };    
   
   security.rtkit.enable = true; # Enable RealtimeKit for audio purposes

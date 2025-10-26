@@ -118,6 +118,7 @@
     extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" "dialout" "wireshark" "vboxusers" "libvirtd" "scanners" ];
     home = "/home/livefish";
     createHome = true;
+    shell = pkgs.fish;
   };
   
   # https://search.nixos.org/packages
@@ -158,6 +159,19 @@
 
       sshfs
       ffmpeg
+
+      # Gaming
+      mangohud 
+      protonup-qt
+      lutris
+      bottles 
+      heroic
+
+      grc
+      fish
+
+      keyd  # Key remapping
+      piper # Gaming mice support
       
       xdg-terminal-exec
       xdg-desktop-portal-gnome

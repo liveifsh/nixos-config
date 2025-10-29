@@ -46,6 +46,7 @@
     '';
     usbtop.enable = true;    
     fish.enable = true;
+    
 #  firefox = {
 #    enable = true;
 #    languagePacks = [ "ru" "en-US" ];

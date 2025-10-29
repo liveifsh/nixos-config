@@ -26,13 +26,13 @@ in {
       user.personal.name = "livefish";
       user.personal.email = "ungazhiv2008@yandex.ru";
       # I think spider-man might be peter parker! somebody get j jonah jameson on the line
+
+      # This is optional, as `git identity` will call the `git-identity` script by itself, however
+      # setting it up explicitly as an alias gives you autocomplete
     };
-    # This is optional, as `git identity` will call the `git-identity` script by itself, however
-    # setting it up explicitly as an alias gives you autocomplete
     aliases = {
       identity = "! git-identity";
       id = "! git-identity";
     };
   };
-
 }

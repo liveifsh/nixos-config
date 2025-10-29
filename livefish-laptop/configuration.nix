@@ -12,12 +12,14 @@
       ./services.nix
       ./programs.nix
       ./xdg.nix
+      ./yggdrasil
       # ./docker/docker-compose.nix
     ];
 
 
   security.polkit.enable = true;
-  
+  documentation.man.generateCaches = false;
+
   # Enable bluetooth
   hardware.bluetooth = {
     enable = true; # enables support for Bluetooth
@@ -89,6 +91,11 @@
       "electron-34.5.8"
     ];
     allowUnfree = true;  
+    packageOverrides = pkgs: {
+      unstable = import <unstable> {
+        config = config.nixpkgs.config;
+      };
+    };
   };
   
   fonts.enableDefaultPackages = true; # Basic unicode coverage
@@ -109,7 +116,7 @@
     };
   };
 
-  systemd.extraConfig = ''
+  systemd.user.extraConfig = ''
     DefaultTimeoutStopSec=10s
   '';
   
@@ -163,12 +170,14 @@
       # Gaming
       mangohud 
       protonup-qt
-      lutris
+      # lutris
       bottles 
       heroic
 
       grc
       fish
+      
+      asciiquarium-transparent # Transparent AQUARIUM IN SHELL!!))
 
       keyd  # Key remapping
       piper # Gaming mice support
@@ -204,6 +213,8 @@
       rare
 
       meld # Merge diffs
+
+      openssl
            
       hardinfo2
 
@@ -310,13 +321,16 @@
   networking.firewall = rec {
     enable = true;
     checkReversePath = false; # Wireguard
-    allowedTCPPorts = [ 22 ];
-    allowedTCPPortRanges = [
-      { from = 1714; to = 1764; }
-    ];
-    allowedUDPPortRanges = [
-      { from = 51820; to = 51830; }
-    ] ++ allowedTCPPortRanges;
+    interfaces = {
+      wlp2s0 = rec {
+        allowedTCPPorts = [ 22 ];
+        allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
+        allowedUDPPortRanges = [{ from = 51820; to = 51830; }] ++ allowedTCPPortRanges;
+      };
+      tun0 = rec {
+        allowedTCPPorts = [];
+      };
+    };    
   };
   
   virtualisation.virtualbox.host.enable = true;

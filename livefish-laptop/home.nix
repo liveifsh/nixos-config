@@ -233,7 +233,7 @@ in rec
 
   programs.fish = {
     enable = true;
-    shellAbbrs = {
+    shellAliases = {
       ls = "eza";
       l = "eza -alh";
       ll = "eza -l";
@@ -250,6 +250,7 @@ in rec
       urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
       urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
       me = "curl eth0.me";
+      o = "xdg-open";
     };
     interactiveShellInit = "fastfetch";
     plugins = [
@@ -259,14 +260,14 @@ in rec
       { name = "sudo"; src = pkgs.fishPlugins.plugin-sudope.src; }
       { name = "pisces"; src = pkgs.fishPlugins.pisces.src; }
       { name = "done"; src = pkgs.fishPlugins.done.src; }
-      { name = "colored man"; src = pkgs.fishPlugins.colored-man-pages.src; }
+      { name = "colored_man"; src = pkgs.fishPlugins.colored-man-pages.src; }
       { name = "bass"; src = pkgs.fishPlugins.bass.src; }
       { name = "tide"; src = pkgs.fishPlugins.tide.src; }
     ];
   };
 
   # Better fish completion
-  programs.man.generateCaches = true; # home-manager
+  # programs.man.generateCaches = true; # home-manager
   
   programs.direnv = {
     enable = true;

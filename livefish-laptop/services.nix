@@ -2,7 +2,6 @@
 {
   services = {
     ntp.enable = true;
-    openssh.enable = true;
     udisks2.enable = true;
     avahi = {
       enable = true;
@@ -14,6 +13,14 @@
         hinfo = true;
         userServices = true;
         workstation = true;
+      };
+    };
+
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
       };
     };
 
@@ -69,7 +76,7 @@
     logind = {
       lidSwitch = "suspend";               # Normal - suspend
       lidSwitchExternalPower = "suspend";  # Charging - suspend
-      lidSwitchDocked = "ignore";          # Second monitor connected - nothing  
+      lidSwitchDocked = "ignore";          # Second monitor connected - nothing
     };
   };    
   

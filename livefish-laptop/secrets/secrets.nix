@@ -12,4 +12,5 @@ in
   "wireguard-synology.age".publicKeys = users ++ systems;
   "wireguard-itmo.age".publicKeys = users ++ systems;
   "wireguard-finka.age".publicKeys = users ++ systems;
+  "yggdrasil-config.age".publicKeys = users ++ systems;
 }

@@ -20,6 +20,10 @@
       inputs.nixpkgs.follows = "stable";
     };
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    npc = {
+      url = "github:samestep/npc";
+      inputs.nixpkgs.follows = "stable";
+    };
   };
 
   outputs = { 
@@ -31,6 +35,7 @@
     prismlauncher-cracked,
     compose2nix,
     chaotic,
+    npc,
     ... 
   }@inputs: {
     nixosConfigurations.livefish-laptop = stable.lib.nixosSystem {
@@ -39,7 +44,7 @@
       modules = with inputs; [
         ./livefish-laptop/configuration.nix
         chaotic.nixosModules.default 
-         
+                 
         home-manager_stable.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;

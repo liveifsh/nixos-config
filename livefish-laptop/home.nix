@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, npc, ... }:
 let
   browser = [ "firefox.desktop" ];
   associations = {
@@ -55,7 +55,7 @@ in rec
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     telegram-desktop
-        
+
     # archives
     zip
     xz
@@ -151,6 +151,8 @@ in rec
     # yandex-music
     anydesk
     keepassxc
+
+   #  npc.packages.${pkgs.stdenv.hostPlatform.system}.default  # Nix packages bisection
     
     mako # Notification daemon
   ];

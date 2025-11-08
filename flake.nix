@@ -38,14 +38,14 @@
     npc,
     ... 
   }@inputs: {
-    nixosConfigurations.livefish-laptop = stable.lib.nixosSystem {
+    nixosConfigurations.livefish-laptop = unstable.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = with inputs; [
         ./livefish-laptop/configuration.nix
         chaotic.nixosModules.default 
                  
-        home-manager_stable.nixosModules.home-manager
+        home-manager_unstable.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;

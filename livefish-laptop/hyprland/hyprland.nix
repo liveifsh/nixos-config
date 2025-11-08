@@ -57,8 +57,8 @@
     enable = true;
     settings = {
       general = {
-          lock_cmd = "/home/livefish/nixos-config/hyprland/scripts/lock.sh";
-          before_sleep_cmd = "/home/livefish/nixos-config/hyprland/scripts/lock.sh";     # lock before suspend.
+          lock_cmd = "/etc/nixos/livefish-laptop/scripts/lock.sh";
+          before_sleep_cmd = "/etc/nixos/livefish-laptop/scripts/lock.sh";     # lock before suspend.
           after_sleep_cmd = "hyprctl dispatch dpms on";                                  # to avoid having to press a key twice to turn on the display.
           ignore_dbus_inhibit = false;
           ignore_systemd_inhibit = false;
@@ -66,16 +66,16 @@
                    
       listener = [
         {
-            timeout = 300;                                                          # 5min
-            on-timeout = "/home/livefish/nixos-config/hyprland/scripts/lock.sh";       # lock screen when timeout has passed
+            timeout = 300;                                                   # 5min
+            on-timeout = "/etc/nixos/livefish-laptop/scripts/lock.sh";       # lock screen when timeout has passed
         }
         {
-          timeout = 330;                                                     # 5.5min
+          timeout = 330;                                                       # 5.5min
           on-timeout = "hyprctl dispatch dpms off";                            # screen off when timeout has passed
           on-resume = "hyprctl dispatch dpms on && brightnessctl -r";          # screen on when activity is detected after timeout has fired.
         }
         {
-          timeout = 1200;                                # 20min
+          timeout = 1200;                                  # 20min
           on-timeout = "systemctl suspend";                # suspend pc
         }
       ]; 

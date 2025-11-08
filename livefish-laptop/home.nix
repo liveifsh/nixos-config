@@ -86,6 +86,7 @@ in rec
     nmap # A utility for network discovery and security auditing
     zenmap # Nmap GUI
     ipcalc  # it is a calculator for the IPv4/v6 addresses
+    bandwhich 
 
     # misc
     cowsay
@@ -97,7 +98,15 @@ in rec
     gawk
     zstd
     gnupg
+    fx     # View json
+    nap    # Code snippets
+    lazyjournal
 
+    handbrake
+    
+    binsider # ELF file analyzer
+    nvtopPackages.amd # GPU monitoring
+    
     # nix related
     #
     # it provides the command `nom` works just like `nix`
@@ -123,7 +132,9 @@ in rec
     ethtool
     pciutils # lspci
     usbutils # lsusb
+
     libreoffice
+    planify
 
     ggh # better ssh
 
@@ -245,12 +256,17 @@ in rec
       e = "sudo nano /etc/nixos/*"; /* for now */
       ee = "sudo nano ./*";
       u = "sudo nix flake update --flake /etc/nixos && r";
-      logs = "journalctl -n 100 -f";
+      # logs = "journalctl -n 100 -f";
       try = "nix-shell -p";
       urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
       urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
       me = "curl eth0.me";
       o = "xdg-open";
+      bandwhich = "sudo bandwhich";
+      json = "fx";
+      logs = "lazyjournal";
+      note = "nap";
+      hi = "echo 'Privet Tasya, goyda!' | cowsay";
     };
     interactiveShellInit = "fastfetch";
     plugins = [
@@ -302,7 +318,7 @@ in rec
     entries = [
       "${pkgs.firefox}/share/applications/firefox.desktop"
       "${pkgs.telegram-desktop}/share/applications/org.telegram.desktop.desktop"
-      "${pkgs.thunderbird}/share/applications/thunderbird.desktop"
+      "${pkgs.planify}/share/applications/io.github.alainm23.planify.desktop"
       # "${pkgs.deltachat-desktop}/share/applications/deltachat.desktop"
     ];
   };

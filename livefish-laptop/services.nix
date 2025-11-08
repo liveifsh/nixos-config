@@ -3,6 +3,7 @@
   services = {
     ntp.enable = true;
     udisks2.enable = true;
+    flatpak.enable = true; # Evil but sadly needed
     avahi = {
       enable = true;
       nssmdns4 = true;
@@ -76,9 +77,17 @@
     logind = {
       lidSwitch = "suspend";               # Normal - suspend
       lidSwitchExternalPower = "suspend";  # Charging - suspend
-      lidSwitchDocked = "ignore";          # Second monitor connected - nothing
+      lidSwitchDocked = "suspend";         # Second monitor connected - suspend too
     };
   };    
   
   security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
+
+  systemd.services.flatpak-repo = {
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.flatpak ];
+    script = ''
+      flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    '';
+  };  
 }

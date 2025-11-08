@@ -312,6 +312,10 @@
       # Db viewer
       dbeaver-bin
 
+      qbittorrent
+      
+      darktable # Photo editing
+    
       inputs.agenix.packages."${system}".default
       inputs.sddm-stray.packages.${pkgs.system}.default
       inputs.prismlauncher-cracked.packages."${system}".default
@@ -323,12 +327,19 @@
     checkReversePath = false; # Wireguard
     interfaces = {
       wlp2s0 = rec {
-        allowedTCPPorts = [ 22 ];
+        allowedTCPPorts = [ 
+          22 
+          12222
+        ];
         allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
         allowedUDPPortRanges = [{ from = 51820; to = 51830; }] ++ allowedTCPPortRanges;
       };
       tun0 = rec {
-        allowedTCPPorts = [];
+        allowedTCPPorts = [ 
+          22 
+          9000
+          52169 #qBittorrent incoming connections
+        ];
       };
     };    
   };

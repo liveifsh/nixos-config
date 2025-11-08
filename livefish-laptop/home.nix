@@ -35,6 +35,31 @@ let
     "application/json" = browser; # ".json"  JSON format
     "application/pdf" = browser; # ".pdf"  Adobe Portable Document Format (PDF)
   };
+  aliases = {
+    ls = "eza";
+    l = "eza -alh";
+    ll = "eza -l";
+    a = "ping ya.ru";
+    ssh = "ggh";
+    cc = "cd /etc/nixos/livefish-laptop";
+    r = "sudo nixos-rebuild switch";
+    rdb = "sudo nixos-rebuild switch --show-trace --print-build-logs --verbose";
+    e = "nano ./*";
+    ee = "nano ./*";
+    see = "sudo nano ./*";
+    u = "sudo nix flake update --flake /etc/nixos && r";
+    try = "nix-shell -p";
+    urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
+    urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+    me = "curl eth0.me";
+    o = "xdg-open";
+    bandwhich = "sudo bandwhich";
+    json = "fx";
+    logs = "lazyjournal";
+    # logs = "journalctl -n 100 -f";
+    note = "nap";
+    hi = "echo 'Privet Tasya, goyda!' | cowsay";
+  };
 in rec
 {
   # TODO please change the username & home directory to your own
@@ -224,52 +249,12 @@ in rec
     '';
 
     # set some aliases, feel free to add more or remove some
-    shellAliases = {
-      ls = "eza";
-      l = "eza -alh";
-      ll = "eza -l";
-      a = "ping ya.ru";
-      ssh = "ggh";
-      cc = "cd /etc/nixos/livefish-laptop";
-      r = "sudo nixos-rebuild switch";
-      rdb = "sudo nixos-rebuild switch --show-trace --print-build-logs --verbose";
-      e = "sudo nano /etc/nixos/*"; /* for now */
-      ee = "sudo nano ./*";
-      u = "sudo nix flake update --flake /etc/nixos && r";
-      logs = "journalctl -n 100 -f";
-      try = "nix-shell -p";
-      urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
-      urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
-      me = "curl eth0.me";
-    };
+    shellAliases = aliases;
   };
 
   programs.fish = {
     enable = true;
-    shellAliases = {
-      ls = "eza";
-      l = "eza -alh";
-      ll = "eza -l";
-      a = "ping ya.ru";
-      ssh = "ggh";
-      cc = "cd /etc/nixos/livefish-laptop";
-      r = "sudo nixos-rebuild switch";
-      rdb = "sudo nixos-rebuild switch --show-trace --print-build-logs --verbose";
-      e = "sudo nano /etc/nixos/*"; /* for now */
-      ee = "sudo nano ./*";
-      u = "sudo nix flake update --flake /etc/nixos && r";
-      # logs = "journalctl -n 100 -f";
-      try = "nix-shell -p";
-      urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
-      urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
-      me = "curl eth0.me";
-      o = "xdg-open";
-      bandwhich = "sudo bandwhich";
-      json = "fx";
-      logs = "lazyjournal";
-      note = "nap";
-      hi = "echo 'Privet Tasya, goyda!' | cowsay";
-    };
+    shellAliases = aliases;
     interactiveShellInit = "fastfetch";
     plugins = [
       { name = "puffer"; src = pkgs.fishPlugins.puffer.src; }

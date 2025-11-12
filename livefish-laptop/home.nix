@@ -59,6 +59,8 @@ let
     # logs = "journalctl -n 100 -f";
     note = "nap";
     hi = "echo 'Privet Tasya, goyda!' | cowsay";
+    gfetch = "onefetch";
+    githubfetch = "gitfetch";
   };
 in rec
 {
@@ -137,8 +139,12 @@ in rec
     # it provides the command `nom` works just like `nix`
     # with more details log output
     nix-output-monitor
+    nix-index    
 
     wofi # Here because we need some config
+
+    gitfetch # User info from github
+    onefetch # Git repo stats
     
     # productivity
     glow # markdown previewer in terminal
@@ -177,8 +183,10 @@ in rec
     anydesk
     keepassxc
 
+    any-nix-shell # For fish in nix-shell  
+
    #  npc.packages.${pkgs.stdenv.hostPlatform.system}.default  # Nix packages bisection
-    
+
     mako # Notification daemon
   ];
 
@@ -251,11 +259,32 @@ in rec
     # set some aliases, feel free to add more or remove some
     shellAliases = aliases;
   };
+#
+#  programs.fastfetch = {
+#    enable = true;
+#    settings = {
+#      logo = {
+#        source = "${./nixos-logo.txt}";
+#        type = "file";
+#      };
+#    };
+#  };
+  programs.command-not-found.enable = false;
+  # for home-manager, use programs.bash.initExtra instead
+  programs.nix-index = {
+    enable = true;
+    enableFishIntegration = true;
+  };
 
   programs.fish = {
     enable = true;
-    shellAliases = aliases;
-    interactiveShellInit = "fastfetch";
+    shellAliases = {
+      nix-shell = "nix-shell --run fish";
+    } // aliases;
+    interactiveShellInit = ''
+      any-nix-shell fish --info-right | source
+      fastfetch
+    '';
     plugins = [
       { name = "puffer"; src = pkgs.fishPlugins.puffer.src; }
       { name = "grc"; src = pkgs.fishPlugins.grc.src; }
@@ -267,6 +296,18 @@ in rec
       { name = "bass"; src = pkgs.fishPlugins.bass.src; }
       { name = "tide"; src = pkgs.fishPlugins.tide.src; }
     ];
+
+    
+#    functions = {
+#      fish_prompt = ''
+#        set -l nix_shell_info (
+#          if test -n "$IN_NIX_SHELL"
+#            echo -n "<nix-shell> "
+#          end
+#        )
+#        echo -n -s "$nix_shell_info ~>"
+#      '';
+#    };
   };
 
   # Better fish completion

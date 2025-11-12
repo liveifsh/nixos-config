@@ -4,6 +4,7 @@
     ntp.enable = true;
     udisks2.enable = true;
     flatpak.enable = true; # Evil but sadly needed
+    rpcbind.enable = true; # For nfs
     avahi = {
       enable = true;
       nssmdns4 = true;
@@ -73,11 +74,10 @@
     };
 
     ratbagd.enable = true;
-
-    logind = {
-      lidSwitch = "suspend";               # Normal - suspend
-      lidSwitchExternalPower = "suspend";  # Charging - suspend
-      lidSwitchDocked = "suspend";         # Second monitor connected - suspend too
+    logind.settings.Login = {
+      HandleLidSwitch = "suspend";      
+      HandleLidSwitchDocked = "suspend";      
+      HandleLidSwitchExternalPower = "suspend";
     };
   };    
   

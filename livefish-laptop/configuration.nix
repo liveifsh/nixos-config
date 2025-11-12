@@ -32,6 +32,13 @@
     };
   };
 
+#  # Temp home nfs share
+#  fileSystems."/mnt/goyda" = {
+#    device="192.168.0.106:naspool";
+#    fsType = "nfs";
+#  };
+  boot.supportedFilesystems = [ "nfs" ];
+
   hardware.sane.enable = true; # enables support for SANE scanners
   hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
   
@@ -55,7 +62,6 @@
       extra-trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
-      
     };
   
     gc = {
@@ -134,6 +140,7 @@
       wget
       btop-rocm
       git
+      gh  # Github cli
       firefox
       nix-prefetch-scripts
       which
@@ -166,6 +173,8 @@
 
       sshfs
       ffmpeg
+
+      nfs-utils
 
       # Gaming
       mangohud 
@@ -237,7 +246,8 @@
       hydralauncher # Game launcher with built-in torrent client
 
       calc # Why haven't I added it before
-
+      asciinema # Terminal recording
+      
       arduino-ide
 
       httpie

@@ -63,14 +63,13 @@
 
     wg-oxff = {
       # IP address of this machine in the *tunnel network*
-      address = [ "10.0.0.5/24" ];
-
+      address = [ "172.17.69.70/24" ];
       # Path to the private key file.
       privateKeyFile = config.age.secrets.wireguard-oxff.path;
       listenPort = 51821;
       peers = [{
-        publicKey = "47el/BtTAmXHRHbkCHcOotZUL71ywxDgDL5PBgobD0w=";
-        allowedIPs = [ "10.0.0.0/24" ];
+        publicKey = "yXEx8qgSgcagzqZoI3XWCLQddu+sblU0W3Ku+hAvjC8=";
+        allowedIPs = [ "172.17.69.0/24" ];
         endpoint = "93.100.76.237:51820";
         persistentKeepalive = 25;
       }];

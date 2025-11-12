@@ -14,7 +14,7 @@ in {
 
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       # extremely important, otherwise git will attempt to guess a default user identity. see `man git-config` for more details
       user.useConfigOnly = true;
 
@@ -23,16 +23,14 @@ in {
       user.work.email = "livefish@unprism.ru";
 
       # the `personal` identity
-      user.personal.name = "livefish";
+      user.personal.name = "liveifsh";
       user.personal.email = "ungazhiv2008@yandex.ru";
       # I think spider-man might be peter parker! somebody get j jonah jameson on the line
 
-      # This is optional, as `git identity` will call the `git-identity` script by itself, however
-      # setting it up explicitly as an alias gives you autocomplete
-    };
-    aliases = {
-      identity = "! git-identity";
-      id = "! git-identity";
+      alias = {
+        identity = "! git-identity";
+        id = "! git-identity";
+      };
     };
   };
 }

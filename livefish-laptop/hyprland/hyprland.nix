@@ -62,6 +62,7 @@
           after_sleep_cmd = "hyprctl dispatch dpms on";                                  # to avoid having to press a key twice to turn on the display.
           ignore_dbus_inhibit = false;
           ignore_systemd_inhibit = false;
+          inhibit_sleep = 2;
       };
                    
       listener = [

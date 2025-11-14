@@ -1,6 +1,6 @@
 { config, lib, pkgs, npc, ... }:
 let
-  browser = [ "firefox.desktop" ];
+  browser = [ "app.zen_browser.zen.desktop" ];
   associations = {
     "text/html" = browser;
     "x-scheme-handler/http" = browser;
@@ -344,7 +344,7 @@ in rec
   xdg.autostart = {
     enable = true;
     entries = [
-      "${pkgs.firefox}/share/applications/firefox.desktop"
+      # "${pkgs.firefox}/share/applications/firefox.desktop"
       "${pkgs.telegram-desktop}/share/applications/org.telegram.desktop.desktop"
       "${pkgs.planify}/share/applications/io.github.alainm23.planify.desktop"
       # "${pkgs.deltachat-desktop}/share/applications/deltachat.desktop"

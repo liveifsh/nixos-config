@@ -84,10 +84,10 @@
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
   
-  system.autoUpgrade = {
-    enable = true;  
-    dates = "20:00";
-  };
+#  system.autoUpgrade = {
+#    enable = true;  
+#    dates = "20:00";
+#  };
   # system.autoUpgrade.allowReboot = true;
   
   nixpkgs.config = {
@@ -315,7 +315,8 @@
       wireshark
       cyberchef
       busybox  # telnet and so on
-
+      acpi
+      
       # Sqlite viewer
       termdbms
 
